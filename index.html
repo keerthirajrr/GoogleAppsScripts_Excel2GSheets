@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <form id="uploadForm">
+      <input type="file" name="uploadedFile" id="fileUpload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" onchange="handleFileSelect(event)">
+    </form>
+
+  <script>
+function handleFileSelect(event) {
+  event.preventDefault();
+  var files = event.target.files;
+  var file = files[0];
+  
+  if (file) {
+    var formData = new FormData();
+    formData.append("uploadedFile", file);
+    
+    google.script.run.withSuccessHandler(function() {
+      alert("Data imported successfully!");
+    }).withFailureHandler(function() {
+      alert("An error occurred while importing the data.");
+    }).importDataFromCSV(formData);
+  }
+}
+</script>
+  </body>
+</html>
